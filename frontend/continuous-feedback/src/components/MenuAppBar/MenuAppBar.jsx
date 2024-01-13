@@ -21,7 +21,7 @@ const studentPages = ["Conectare Activitate"];
 const professorPages = ["Creare Activitate", "Lista Activitati"];
 let pages = [];
 const settings = ["Profil", "Logout"];
-
+const idProfessor = 12455;
 function MenuAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -45,6 +45,8 @@ function MenuAppBar() {
       mode: "dark",
     },
   });
+
+  const navigate = useNavigate();
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -122,11 +124,12 @@ function MenuAppBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                    <MenuItem component={Link} to={`/profile/${idProfessor}`} key="Profil" onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Profil</Typography>
                     </MenuItem>
-                  ))}
+                    <MenuItem component={Link} to={`/logout`} key="Logout" onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
                 </Menu>
               </Box>
             </Toolbar>

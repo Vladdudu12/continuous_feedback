@@ -17,6 +17,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreateActivitate from '../../components/CreateActivitate/CreateActivitate';
+import copy from "copy-to-clipboard"
+import { IconButton } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -42,12 +46,22 @@ const darkTheme = createTheme({
 export default function MainProfesor(props) {
   console.log(props.isCreate);
   const [isCreate, setIsCreate] = useState(props.isCreate);
+  const [codAcces, setCodAcces] = useState("1234515")
+  
   const navigate = useNavigate();
   function handleCreateButtonClick() {
     setIsCreate(true);
   }
+
   function handleListaButtonClick() {
     setIsCreate(false);
+  }
+
+  const [copyText, setCopyText] = useState("");
+
+  const copyToClipboard = () => {
+    copy(copyText);
+    console.log('copied text ' + copyText);
   }
   return (
     <ThemeProvider theme={darkTheme}>
@@ -113,6 +127,9 @@ export default function MainProfesor(props) {
                     <Typography>
                       Durata: 130 min
                     </Typography>
+                    <Typography>
+                      Cod Acces: 2031129dF
+                    </Typography>
                   </CardContent>
                   <CardActions>
                     <Button 
@@ -134,6 +151,12 @@ export default function MainProfesor(props) {
                     >
                       Feedback
                     </Button>
+                    <IconButton onClick={() => {
+                      setCopyText(codAcces);
+                      copyToClipboard()
+                      }}>
+                      <ContentCopyIcon/>
+                    </IconButton>
                   </CardActions>
                 </Card>
               </Grid>

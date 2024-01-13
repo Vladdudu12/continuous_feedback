@@ -13,6 +13,7 @@ import ListaFeedback from './pages/Feedback/ListaFeedback';
 import ListaPrezenta from './pages/Prezenta/ListaPrezenta';
 import FeedbackStudent from './pages/Feedback/FeedbackStudent';
 import ProfilePage from './pages/Profile/Profile';
+import Logout from './pages/Login/Logout';
 
 function App() {
   const [isProfessor, setIsProfessor] = useState(false);
@@ -57,6 +58,8 @@ function App() {
           <Route path="/profile" element={<ProtectedRoute/>} >
             <Route path=":idUser" element={<ProfilePage isProfessor={isProfessor}/>}/>
           </Route>
+
+          <Route path="/logout" element={<Logout/>}></Route>
         </Routes>
         <Footer/>
     </>
