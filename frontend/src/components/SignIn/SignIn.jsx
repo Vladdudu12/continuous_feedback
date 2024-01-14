@@ -38,6 +38,7 @@ export default function SignIn() {
   const {setToken} = useAuth();
   const navigate = useNavigate();
 
+
   const { enqueueSnackbar } = useSnackbar();
   const action = snackbarId => (
     <>
@@ -60,11 +61,12 @@ export default function SignIn() {
       email: email,
       parola: parola
     }
-    console.log(authPerson);
+    //console.log(authPerson);
     if(isProfessor_) {
       await axios.post(`http://localhost:8080/api/auth/login/${true}`, {authPerson})
       .then(res => {
         const response = res.data;
+        //console.log(email, parola);
         if(response.success == true) {
           setToken(response.data.token);
           setIsProfessor(response.data.isProfessor);

@@ -38,8 +38,13 @@ const controller = {
         res.status(200).send(feedbackCautat);
     },
 
-    getAllFeedback: async (req, res) => {
-        const feedback = await FeedbackDB.findAll();
+    getAllFeedbackByActivitateId: async (req, res) => {
+        const id = req.params.id;
+        const feedback = await FeedbackDB.findAll({
+            where: {
+                ActivitateId: id,
+            }
+        });
         if(feedback == null) {
             res.status(404).send({message: "Not Found"});
         }

@@ -15,11 +15,11 @@ root.render(
     <SnackbarProvider>
       <IsProfessorProvider>
         <UserIdProvider>
-          <AuthProvider>
-            <Routes>
-              <App />
-            </Routes>
-          </AuthProvider>
+            <AuthProvider>
+              <Routes>
+                <App />
+              </Routes>
+            </AuthProvider>
         </UserIdProvider>
       </IsProfessorProvider>
     </SnackbarProvider>

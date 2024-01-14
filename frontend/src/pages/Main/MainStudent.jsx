@@ -22,9 +22,8 @@ import { useUserId } from "../../provider/userIdProvider";
 import { useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../provider/authProvider";
-
-const isValid = true;
-// TODO remove, this demo shouldn't need to reset the theme.
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -32,7 +31,6 @@ const darkTheme = createTheme({
 });
 export default function MainStudent(props) {
   const navigate = useNavigate();
-  const idActivitate = 1234;
   const [codActivitate, setCodActivitate] = useState("");
   const [ userId ] = useState(props.userId);
   const { enqueueSnackbar } = useSnackbar();
@@ -42,14 +40,9 @@ export default function MainStudent(props) {
 
   const action = (snackbarId) => (
     <>
-      <Button
-        style={{ fontColor: "white" }}
-        onClick={() => {
-          closeSnackbar(snackbarId);
-        }}
-      >
-        Dismiss
-      </Button>
+      <IconButton onClick={() => closeSnackbar(snackbarId)}>
+        <CloseIcon />
+      </IconButton>
     </>
   );
   const handleClickVariant = (variant) => {
@@ -98,7 +91,7 @@ export default function MainStudent(props) {
         config
       )
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         const result = res.data;
         handleClickVariant("success");
         navigate(`/feedbackActivitate/${result.ActivitateId}`)
@@ -111,12 +104,12 @@ export default function MainStudent(props) {
   };
 
   const getStudentActivities = async () => {
-    console.log(userId);
+    //console.log(userId);
     await axios.get(
       `http://localhost:8080/api/prezentaActivitate/${userId}`,
       config
     ).then(res => {
-      console.log(res.data);
+      //console.log(res.data);
       setActivitati(res.data);
       handleLoad('success', action);
 
@@ -168,7 +161,7 @@ export default function MainStudent(props) {
               color="text.secondary"
               paragraph
             >
-              Ai fost prezent in total la x activitati.
+              Ai fost prezent in total la {activitati.length} activitati.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -213,7 +206,7 @@ export default function MainStudent(props) {
                   <CardActions>
                     <Button
                       size="small"
-                      disabled={( new Date() >= new Date(new Date("2023-04-09T19:20:59.000Z").getTime() + activitate.durata * 1000))}
+                      disabled={( new Date() >= new Date(new Date(activitate.data).getTime() + activitate.durata * 1000))}
                       onClick={() => {
                         navigate(`/feedbackActivitate/${activitate.id}`);
                       }}

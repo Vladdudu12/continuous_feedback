@@ -61,6 +61,37 @@ const controller = {
 
     res.status(200).send(activitati);
   },
+  getAllStudentsByActivitateId: async (req, res) => {
+    const id = req.params.id;
+    const activitate = await ActivitateDB.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (activitate == null) {
+      res.status(404).send({ message: "Activitate Inexistenta" });
+    }
+    const prezente = await PrezentaActivitateDB.findAll({
+      where: {
+        ActivitateId: activitate.id,
+      },
+    });
+
+    let studenti = [];
+    for (let i = 0; i < prezente.length; i++) {
+      const student = await StudentDB.findOne({
+        where: {
+          id: prezente[i].StudentId,
+        },
+      });
+      if (student !== null) {
+        studenti.push(student);
+      }
+    }
+
+    res.status(200).send(studenti);
+  }
 };
 
 module.exports = controller;

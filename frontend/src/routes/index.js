@@ -42,12 +42,12 @@ const Routes = () => {
           element: <MainPage isProfessor={isProfessor} userId={userId}/>,
         },
         {
-            path: "/listaFeedback/:idProfesor/:idActivitate",
-            element: <ListaFeedback />,
+            path: "/listaFeedback/:idActivitate",
+            element: <ListaFeedback userId={userId}/>,
         },
         {
             path: "/listaPrezenta/:idActivitate",
-            element: <ListaPrezenta />,
+            element: <ListaPrezenta/>,
         },
         {
             path: "/feedbackActivitate/:idActivitate",

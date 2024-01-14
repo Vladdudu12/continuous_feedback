@@ -10,55 +10,21 @@ import TableRow from "@mui/material/TableRow";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-
+import { useState } from "react";
+import axios from 'axios';
+import { useAuth } from "../../provider/authProvider";
+import { useEffect } from "react";
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
+  { id: "numeStudent", label: "Nume Student", minWidth: 170 },
+  { id: "legitimatieStudent", label: "Legitimatie", minWidth: 100 },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(student) {
+  const nume = student.nume;
+  const legitimatie = student.legitimatie;
+  return { numeStudent: nume, legitimatieStudent: legitimatie };
 }
 
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
 
 const darkTheme = createTheme({
   palette: {
@@ -66,11 +32,55 @@ const darkTheme = createTheme({
   },
 });
 
-export default function ListaPrezenta() {
+export default function ListaPrezenta(props) {
   const { idActivitate } = useParams();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);
+  const [materieActivitate, setMaterieActivitate] = useState('');
+  const [tipActivitate, setTipActivitate] = useState('');
+  const [dataActivitate, setDataActivitate] = useState(new Date());
+  const {token} = useAuth();
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const getActivitateDetails = async() => {
+    await axios.get(
+      `http://localhost:8080/api/activitate/${idActivitate}`,
+      config
+    ).then(res => {
+      //console.log(res.data);
+      setMaterieActivitate(res.data.materie);
+      setTipActivitate(res.data.tipActivitate);
+      setDataActivitate(res.data.data);
+      //console.log(materieActivitate, tipActivitate, dataActivitate);
+    }).catch((err) => {
+      console.log(err.message);
+    });
+  }
+  const getPrezentaActivitate = async () => {
+    await axios.get(
+      `http://localhost:8080/api/prezentaActivitate/stud/${idActivitate}`,
+      config
+    ).then(res => {
+      //console.log(res.data);
+      let dataRows = [];
+      res.data.forEach(student => {
+        //console.log(student);
+        dataRows.push(createData(student));
+      });
+      setRows(dataRows);
+    }).catch((err) => {
+      console.log(err.message);
+    });  
+  }
+
+  useEffect(() => {
+    getPrezentaActivitate();
+    getActivitateDetails();
+  }, [])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -81,12 +91,24 @@ export default function ListaPrezenta() {
     setPage(0);
   };
 
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, "0");
+  }
+  function formatDate(date) {
+    return [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join("-");
+  }
+
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {/* Footer */}
       <main>
-      <h1>Id Activitate: {idActivitate}</h1>
+      <h1>Prezenta {tipActivitate} {materieActivitate} (Data: {formatDate(new Date(dataActivitate))} | Ora: {new Date(dataActivitate).toLocaleTimeString()})</h1>
       <Paper sx={{ width: "100%", overflow: "hidden"}}>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
