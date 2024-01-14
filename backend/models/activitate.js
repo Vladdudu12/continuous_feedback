@@ -11,6 +11,7 @@ const ActivitateModel = (sequelize, DataTypes) => {
       data: DataTypes.DATE,
       durata: DataTypes.INTEGER,
       codAcces: DataTypes.STRING,
+      tipActivitate: DataTypes.STRING,
     },
     {
       freezeTableName: true,

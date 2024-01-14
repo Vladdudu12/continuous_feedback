@@ -2,14 +2,6 @@ const StudentDB = require("../models").Student;
 
 
 const controller = {
-    addStudent: async (req, res) => {
-        const student = req.body;
-        
-        const studentAdaugat = await StudentDB.create(student);
-
-        res.status(200).send(studentAdaugat);
-    },
-
     getStudentById: async (req, res) => {
         const id = req.params.id;
 

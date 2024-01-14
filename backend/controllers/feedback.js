@@ -2,8 +2,24 @@ const FeedbackDB = require("../models").Feedback;
 
 
 const controller = {
-    addFeedback: async (req, res) => {
-        const feedback = req.body;
+    addFeedbackActivitate: async (req, res) => {
+        const id = req.params.id;
+        const feedback = {
+            ActivitateId: id,
+        };
+        const emoji = req.body.descriere;
+        if(emoji == '😊') {
+            feedback.descriere = 'Smiley'
+        }
+        if(emoji == '🙁') {
+            feedback.descriere = "Frowny"
+        }
+        if(emoji == '😮') {
+            feedback.descriere = 'Surprised'
+        }
+        if(emoji == '😵') {
+            feedback.descriere = "Confused"
+        }
         
         const feedbackAdaugat = await FeedbackDB.create(feedback);
 

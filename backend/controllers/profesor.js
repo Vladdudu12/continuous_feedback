@@ -2,14 +2,6 @@ const ProfesorDB = require("../models").Profesor;
 
 
 const controller = {
-    addProfesor: async (req, res) => {
-        const profesor = req.body;
-        
-        const profesorAdaugat = await ProfesorDB.create(profesor);
-
-        res.status(200).send(profesorAdaugat);
-    },
-
     getProfesorById: async (req, res) => {
         const id = req.params.id;
 

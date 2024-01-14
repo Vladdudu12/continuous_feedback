@@ -22,8 +22,13 @@ const controller = {
         res.status(200).send(activitateCautata);
     },
 
-    getAllActivitati: async (req, res) => {
-        const activitati = await ActivitateDB.findAll();
+    getAllActivitatiByProfessorId: async (req, res) => {
+        const id = req.params.id;
+        const activitati = await ActivitateDB.findAll({
+            where: {
+                ProfesorId: id
+            }
+        });
         if(activitati == null) {
             res.status(404).send({message: "Not Found"});
         }

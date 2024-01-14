@@ -1,28 +1,15 @@
 const express = require("express");
 const app = new express();
 const router = require("./routes");
-const connection = require("./models").connection;
-
-
+const cors = require('cors');
+const dotenv = require('dotenv');
 
 const PORT = 8080;
+dotenv.config();
 
+app.use(cors());
 app.use(express.json());
 
-app.get("/api/reset", (req, res) => {
-    connection
-      .sync({ force: true })
-      .then(() => {
-        res.status(201).send({ message: "Database reset" });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: "Database reset failed",
-          err: err.message,
-        });
-      });
-  });
-  
 app.use('/api', router);
 
 
