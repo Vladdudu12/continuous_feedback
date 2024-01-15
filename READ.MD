@@ -1,4 +1,5 @@
-pentru a rula proiectul, trebuie urmati pasii de mai jos:
+https://github.com/Vladdudu12/continuous_feedback
+dupa ce ati clonat repository, pentru a rula proiectul, trebuie urmati pasii de mai jos:
 1. deschideti un terminal
 2. accesati directorul backend din terminal cu comanda `cd \backend`
 3. instalati dependintele utilizand comanda `npm i`
