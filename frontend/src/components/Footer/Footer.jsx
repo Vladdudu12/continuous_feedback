@@ -27,7 +27,7 @@ export default function Footer() {
     <CssBaseline />      {/* Footer */}
       <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Feedback 4 Days
         </Typography>
         <Typography
           variant="subtitle1"

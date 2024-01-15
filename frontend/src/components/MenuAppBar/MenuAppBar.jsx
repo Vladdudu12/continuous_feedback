@@ -18,15 +18,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useState } from "react";
 import { useAuth } from "../../provider/authProvider";
-const studentPages = ["Conectare Activitate"];
-const professorPages = ["Creare Activitate", "Lista Activitati"];
-let pages = [];
-const settings = ["Profil", "Logout"];
-const idProfessor = 12455;
+
 function MenuAppBar(props) {
   const { token } = useAuth();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [userId] = useState(props.userId);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -125,7 +122,6 @@ function MenuAppBar(props) {
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         alt="Remy Sharp"
-                        src="/static/images/avatar/2.jpg"
                       />
                     </IconButton>
                   </Tooltip>
@@ -147,7 +143,7 @@ function MenuAppBar(props) {
                   >
                     <MenuItem
                       component={Link}
-                      to={`/profile/${idProfessor}`}
+                      to={`/profile/${userId}`}
                       key="Profil"
                       onClick={handleCloseUserMenu}
                     >

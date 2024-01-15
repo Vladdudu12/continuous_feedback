@@ -22,7 +22,7 @@ const Routes = () => {
   function Layout() {
     return(
     <>
-      <MenuAppBar/>
+      <MenuAppBar userId={userId}/>
       <Outlet/>
       <Footer/>
     </>)
